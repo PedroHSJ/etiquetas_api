@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DatabaseService } from "./database.service";
 import { ConfigurationEntity } from "./entities/configurarion.entity";
+import { join } from "path";
 
 @Module({
   imports: [
@@ -12,18 +13,39 @@ import { ConfigurationEntity } from "./entities/configurarion.entity";
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        ssl: {
-          rejectUnauthorized: false, // necessário para o Supabase
-        },
-        type: "postgres",
-        host: config.get<string>("DB_HOST"),
-        port: config.get<number>("DB_PORT"),
-        username: config.get<string>("DB_USERNAME"),
-        password: config.get<string>("DB_PASSWORD"),
-        database: config.get<string>("DB_NAME"),
-        entities: [__dirname + "/../**/*.entity{.ts,.js}"],
-      }),
+      useFactory: async (config: ConfigService) =>
+        process.env.NODE_ENV === "production"
+          ? {
+              url: config.get<string>("DATABASE_URL"),
+              ssl: {
+                rejectUnauthorized: false, // necessário para o Supabase
+              },
+              entities: [
+                join(
+                  __dirname,
+                  "../../../modules/**/entities/*.entity{.ts,.js}",
+                ),
+                ConfigurationEntity,
+              ],
+            }
+          : {
+              ssl: {
+                rejectUnauthorized: false, // necessário para o Supabase
+              },
+              type: "postgres",
+              host: config.get<string>("DB_HOST"),
+              port: config.get<number>("DB_PORT"),
+              username: config.get<string>("DB_USERNAME"),
+              password: config.get<string>("DB_PASSWORD"),
+              database: config.get<string>("DB_NAME"),
+              entities: [
+                join(
+                  __dirname,
+                  "../../../modules/**/entities/*.entity{.ts,.js}",
+                ),
+                ConfigurationEntity,
+              ],
+            },
     }),
     TypeOrmModule.forFeature([ConfigurationEntity]),
   ],
