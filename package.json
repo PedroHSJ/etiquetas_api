@@ -6,8 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "yarn copy:assets && nest build",
-    "copy:assets": "cpx \"src/shared/i18n/**/*\" \"dist/src/shared/i18n\" && cpx \"src/shared/constants/**/*\" \"dist/src/shared/constants\"",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:changed": "git diff --name-only | sed -n 's/.*\\(src\\/.*\\.ts\\)/\\1/p' | xargs prettier --write",
     "start": "nest start",
@@ -75,7 +74,6 @@
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "cpx": "^1.5.0",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",

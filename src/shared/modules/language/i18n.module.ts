@@ -20,7 +20,7 @@ import {
           "pt-*": "pt-br",
         },
         loaderOptions: {
-          path: join(__dirname, "../../i18n/"),
+          path: join(process.cwd(), "dist/shared/i18n/"),
           watch: true,
         },
       }),

@@ -4,7 +4,17 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "assets": ["shared/i18n/**/*", "shared/constants/**/*"],
-    "watchAssets": true
+    "assets": [
+      {
+        "include": "shared/i18n/**/*",
+        "watchAssets": true,
+        "outDir": "dist"
+      },
+      {
+        "include": "shared/constants/**/*",
+        "watchAssets": true,
+        "outDir": "dist"
+      }
+    ]
   }
 }
