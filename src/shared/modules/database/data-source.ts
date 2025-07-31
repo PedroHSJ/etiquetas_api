@@ -1,36 +1,33 @@
-import { DataSource, DataSourceOptions } from "typeorm";
-import { config } from "dotenv";
-import { join } from "path";
-import { SeederOptions } from "typeorm-extension";
-import { ConfigurationEntity } from "./entities/configurarion.entity";
+import { DataSource } from "typeorm";
+import { ConfigService } from "@nestjs/config";
 
-config();
+let dataSource: DataSource | null = null;
 
-const options: DataSourceOptions = {
-  type:
-    (process.env.DB_DIALECT as
-      | "mysql"
-      | "mariadb"
-      | "postgres"
-      | "mssql"
-      | "oracle") || "postgres",
-  host: process.env.DB_HOST || "localhost",
-  port: parseInt(process.env.DB_PORT || "5432"),
-  username: process.env.DB_USERNAME || "postgres",
-  password: process.env.DB_PASSWORD || "postgres",
-  database: process.env.DB_DATABASE || "nutri_flow",
-  schema:
-    process.env.NODE_ENV === "test"
-      ? `${process.env.DB_SCHEMA}_test`
-      : process.env.DB_SCHEMA || "nutri_flow",
-  entities: [
-    join(__dirname, "../../../modules/**/entities/*.entity{.ts,.js}"),
-    ConfigurationEntity,
-  ],
-  synchronize: false,
-  //logging: true,
-};
+export async function getDataSource(
+  config: ConfigService,
+): Promise<DataSource> {
+  if (dataSource && dataSource.isInitialized) {
+    return dataSource;
+  }
 
-const dataSource = new DataSource(options);
+  dataSource = new DataSource({
+    type: "postgres",
+    host: config.get<string>("DB_HOST"),
+    port: parseInt(config.get<string>("DB_PORT", "5432")),
+    username: config.get<string>("DB_USERNAME"),
+    password: config.get<string>("DB_PASSWORD"),
+    database: config.get<string>("DB_NAME"),
+    entities: [__dirname + "/../../**/*.entity.{js,ts}"],
+    synchronize: false,
+    ssl:
+      config.get<string>("NODE_ENV") === "production"
+        ? { rejectUnauthorized: false }
+        : false,
+  });
 
-export default dataSource;
+  if (!dataSource.isInitialized) {
+    await dataSource.initialize();
+  }
+
+  return dataSource;
+}

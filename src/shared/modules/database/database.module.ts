@@ -1,28 +1,25 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import dataSource from "./data-source";
-import { addTransactionalDataSource } from "typeorm-transactional";
-import { DataSource } from "typeorm";
-import { DatabaseService } from "./database.service";
-import { ConfigurationEntity } from "./entities/configurarion.entity";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { getDataSource } from "./data-source";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
-      useFactory() {
-        return dataSource.options;
-      },
-      async dataSourceFactory(options) {
-        if (!options) {
-          throw new Error("Invalid options passed");
-        }
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        const dataSource = await getDataSource(config);
 
-        return addTransactionalDataSource(new DataSource(options));
+        return {
+          ...dataSource.options,
+          keepConnectionAlive: true,
+        };
       },
     }),
-    TypeOrmModule.forFeature([ConfigurationEntity]),
   ],
-  providers: [DatabaseService],
-  exports: [DatabaseService],
 })
 export class DatabaseModule {}
