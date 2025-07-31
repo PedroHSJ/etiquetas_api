@@ -1,0 +1,30 @@
+{
+  "verbose": true,
+  "moduleDirectories": ["node_modules", "src"],
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../",
+  "moduleNameMapper": {
+    "^src/(.*)$": "<rootDir>/src/$1"
+  },
+  "setupFilesAfterEnv": ["<rootDir>/test/test-setup.ts"],
+  "collectCoverage": false,
+  "collectCoverageFrom": [
+    "src/**/*.(t|j)s",
+    "!**/*.spec.(t|j)s",
+    "!**/main.ts"
+  ],
+  "coverageDirectory": "coverage-e2e",
+  "coverageReporters": [
+    "json",
+    "lcov",
+    "text",
+    "clover",
+    "cobertura"
+  ],
+  "testEnvironment": "node",
+  "testRegex": ".*\\.e2e-spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "logHeapUsage": true
+}

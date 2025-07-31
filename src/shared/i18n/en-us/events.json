@@ -1,0 +1,26 @@
+{
+  "teste": "test of something that started working",
+  "databaseError": "The record violates foreign key integrity, please check your request",
+  "commons": {
+    "success": "Operation successfully completed.",
+    "error": "Unable to complete the operation, please try again later.",
+    "notFound": "Record not found.",
+    "invalidData": "Invalid data.",
+    "alreadyExists": "The record already exists.",
+    "invalidCredentials": "Invalid credentials.",
+    "invalidCPF": "Invalid CPF.",
+    "alredyInactive": "The record is already inactive.",
+    "emailInUse": "The email is already in use."
+  },
+  "validation": {
+    "required": "The field is required.",
+    "min": "The field must have at least {min} characters.",
+    "max": "The field must have a maximum of {max} characters.",
+    "email": "Invalid email.",
+    "cpf": "Invalid CPF.",
+    "mustBeString": "The field must be a string.",
+    "mustBeNumber": "The field must be a number.",
+    "passwordRule": "The password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.",
+    "validationError": "Validation error."
+  }
+}

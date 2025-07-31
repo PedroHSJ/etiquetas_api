@@ -1,0 +1,36 @@
+{
+  "teste": "teste de algo que passou a funcionar",
+  "databaseError": "O registro viola integridade de chave estrangeira, verifique sua requisição",
+  "commons": {
+    "success": "Sucesso ao realizar a operação.",
+    "error": "Não foi possível realizar a operação, tente novamente mais tarde.",
+    "notFound": "Registro não encontrado.",
+    "invalidData": "Dados inválidos.",
+    "alreadyExists": "O registro já existe.",
+    "invalidCredentials": "Credenciais inválidas.",
+    "invalidCPF": "CPF inválido.",
+    "alredyInactive": "O registro está inativado.",
+    "emailInUse": "O email já está em uso.",
+    "invalidToken": "Token inválido.",
+    "expiredToken": "Token expirado.",
+    "notFoundToken": "Token não encontrado.",
+    "googleLogin": "Esse usuário está cadastrado com o Google, faça login com o Google.",
+    "resourceLimitReached": "Você atingiu o limite disponível para o seu plano.",
+    "unauthorized": "Você não tem permissão para acessar esse recurso."
+  },
+  "validation": {
+    "required": "O campo é obrigatório.",
+    "min": "Esse campo deve ter no mínimo {min} caracteres.",
+    "max": "Esse campo deve ter no máximo {max} caracteres.",
+    "email": "Email inválido.",
+    "cpf": "CPF inválido.",
+    "mustBeString": "Esse campo deve ser uma string.",
+    "mustBeNumber": "Esse campo deve ser um número.",
+    "passwordRule": "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+    "validationError": "Erro de validação."
+  },
+  "subscription": {
+    "priceNotFound": "Preço não encontrado.",
+    "planNotFound": "Plano não encontrado."
+  }
+}
