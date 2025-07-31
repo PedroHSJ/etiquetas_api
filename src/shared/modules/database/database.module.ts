@@ -16,6 +16,7 @@ import { join } from "path";
       useFactory: async (config: ConfigService) =>
         process.env.NODE_ENV === "production"
           ? {
+              type: "postgres",
               url: config.get<string>("DATABASE_URL"),
               ssl: {
                 rejectUnauthorized: false, // necessário para o Supabase
