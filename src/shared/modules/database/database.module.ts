@@ -18,6 +18,7 @@ import { join } from "path";
           ? {
               type: "postgres",
               url: config.get<string>("DATABASE_URL"),
+              schema: config.get<string>("DB_SCHEMA"),
               ssl: {
                 rejectUnauthorized: false, // necessário para o Supabase
               },
@@ -39,6 +40,7 @@ import { join } from "path";
               username: config.get<string>("DB_USERNAME"),
               password: config.get<string>("DB_PASSWORD"),
               database: config.get<string>("DB_NAME"),
+              schema: config.get<string>("DB_SCHEMA"),
               entities: [
                 join(
                   __dirname,

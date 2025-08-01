@@ -302,7 +302,7 @@ export class AuthService {
         onboardingCompleted: user.onboardingCompleted,
       });
     } catch (error) {
-      console.log(error);
+      console.error("Error in Google Registration Service:", error);
       throw new UnauthorizedException(
         this.i18n.t("events.commons.googleAuthFailed"),
       );

@@ -2,7 +2,10 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import * as dotenv from "dotenv";
 import { AllExceptionsFilter } from "./shared/helpers/filters/ExceptionFilter";
-import { initializeTransactionalContext } from "typeorm-transactional";
+import {
+  initializeTransactionalContext,
+  addTransactionalDataSource,
+} from "typeorm-transactional";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { DatabaseService } from "./shared/modules/database/database.service";
 import {
@@ -18,6 +21,7 @@ import { Logger } from "@nestjs/common";
 import { FeatureLimitInterceptor } from "./shared/helpers/interceptors/feature-limit.interceptor";
 import { SubscriptionLimitService } from "./modules/subscription/subscription-limit.service";
 import * as cookieParser from "cookie-parser";
+import { DataSource } from "typeorm";
 
 async function bootstrap() {
   const logger = new Logger("Bootstrap");
@@ -29,6 +33,7 @@ async function bootstrap() {
     initializeTransactionalContext();
 
     const app = await NestFactory.create(AppModule);
+    addTransactionalDataSource(app.get(DataSource));
     const databaseService = app.get(DatabaseService);
 
     if (process.env.NODE_ENV == "development") {
@@ -36,6 +41,7 @@ async function bootstrap() {
       await databaseService.createTables();
       await databaseService.loadData();
     }
+    logger.log(`process.env.NODE_ENV: ${process.env.NODE_ENV}`);
     const i18n = app.get<I18nService<Record<string, unknown>>>(I18nService);
 
     app.setGlobalPrefix("api");
@@ -116,7 +122,7 @@ async function bootstrap() {
     // app.enableShutdownHooks();
 
     const port = process.env.PORT ?? 3000;
-    await app.listen(port, '0.0.0.0');
+    await app.listen(port, "0.0.0.0");
     logger.log(`Aplicação iniciada com sucesso!`);
   } catch (error) {
     logger.error(`Falha ao iniciar aplicação: ${error.message}`, error.stack);
